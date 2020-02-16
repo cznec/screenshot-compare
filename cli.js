@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const cac = require('cac')
 const path = require('path')
 const Collector = require('./src/Collector')
