@@ -19,7 +19,7 @@ class Collector {
 
     this.required()
 
-    this.collectionPath = path.join(this.opt.__dirname, this.opt.collectionPath)
+    this.collectionPath = path.join(this.opt.pwd, this.opt.collectionPath)
 
     this.mode = this.opt.mode ? this.opt.mode : 'test'
     this.modeTest = this.mode === 'test'
@@ -44,7 +44,7 @@ class Collector {
 
   required() {
     if (!this.opt.collectionPath) this.error('collectionPath parameter is required')
-    if (!this.opt.__dirname) this.error('__dirname parameter is required')
+    if (!this.opt.pwd) this.error('pwd parameter is required')
   }
 
   async initBrowser() {

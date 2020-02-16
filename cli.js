@@ -13,7 +13,7 @@ cli
     new Collector({
       collectionPath,
       itemsNames,
-      __dirname,
+      pwd: process.env.PWD,
       mode: 'collect'
     })
   })
@@ -24,7 +24,7 @@ cli
     new Collector({
       collectionPath,
       itemsNames,
-      __dirname,
+      pwd: process.env.PWD,
       mode: 'test'
     })
   })
