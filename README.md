@@ -2,6 +2,8 @@
 
 Website testing tool for screenshot capture and compare.
 
+## Docs under construction 🚧
+
 ## Getting Started
 
 ...
