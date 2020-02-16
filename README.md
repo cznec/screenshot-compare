@@ -22,6 +22,7 @@ module.exports = [
   new Screenshot()
     .name('github')
     .url("https://github.com/cznec/screenshot-compare")
+    .delay(1000)
     .get(),
 ]
 
