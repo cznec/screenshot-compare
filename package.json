@@ -4,7 +4,9 @@
   "homepage": "https://github.com/cznec/screenshot-compare",
   "keywords": ["screenshot", "collect", "compare", "headless"],
   "main": "index.js",
-  "bin": "cli.js",
+  "bin": {
+    "screenshot-compare": "cli.js"
+  },
   "license": "MIT",
   "scripts": {
     "test": "echo \"No test specified\""
