@@ -19,7 +19,7 @@ cli
   })
 
 cli
-  .command('test <collectionPath> [...itemsNames?]', 'Test collected screenshots')
+  .command('compare <collectionPath> [...itemsNames?]', 'Test collected screenshots')
   .action((collectionPath, itemsNames) => {
     new Collector({
       collectionPath,
