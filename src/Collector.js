@@ -124,6 +124,12 @@ class Collector {
         this.itemsMeta[item.name] = meta
 
       /**
+       * Before action
+       */
+      if (item.before)
+        await item.before(page, item, this)
+
+      /**
        * Set viewport
        */
       if (item.viewport)
@@ -134,12 +140,6 @@ class Collector {
        */
       if (item.pageLog)
         page.on('console', msg => console.log('PAGE LOG:', msg.text()));
-
-      /**
-       * Before action
-       */
-      if (item.before)
-        await item.before(page, item, this)
 
       /**
        * Capture screenshot
