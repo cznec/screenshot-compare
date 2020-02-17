@@ -1,5 +1,6 @@
 {
   "name": "@cznec/screenshot-compare",
+  "author": "@cznec",
   "version": "1.0.7",
   "homepage": "https://github.com/cznec/screenshot-compare",
   "keywords": [
@@ -20,7 +21,6 @@
     "cac": "^6.5.6",
     "colors": "^1.4.0",
     "delay": "^4.3.0",
-    "lodash": "^4.17.15",
     "md5": "^2.2.1",
     "pixelmatch": "^5.1.0",
     "pngjs": "^3.4.0",

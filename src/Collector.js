@@ -6,7 +6,6 @@ const delay = require('delay')
 const md5 = require('md5')
 const PNG = require('pngjs').PNG
 const pixelmatch = require('pixelmatch')
-const _ = require('lodash')
 
 require('colors')
 
@@ -218,9 +217,10 @@ class Collector {
 
     if (height1 !== height2) {
       const smaller = temp1.data.length < temp2.data.length ? temp1 : temp2
-      const pixelFill = _.times(diff.data.length - smaller.data.length, () => 155)
 
-      smaller.data = Buffer.from(_.concat([...smaller.data], pixelFill))
+      const pixelFill = []
+      for (let i = diff.data.length - smaller.data.length; i > 0; i--) { pixelFill.push(155) }
+      smaller.data = Buffer.from([...smaller.data].concat(pixelFill))
     }
 
     try {
