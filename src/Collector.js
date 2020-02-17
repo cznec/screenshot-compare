@@ -216,10 +216,12 @@ class Collector {
     temp1.data = img1.data
     temp2.data = img2.data
 
-    const smaller = temp1.data.length < temp2.data.length ? temp1 : temp2
-    const pixelFill = _.times(diff.data.length - smaller.data.length, () => 155)
+    if (height1 !== height2) {
+      const smaller = temp1.data.length < temp2.data.length ? temp1 : temp2
+      const pixelFill = _.times(diff.data.length - smaller.data.length, () => 155)
 
-    smaller.data = Buffer.from(_.concat([...smaller.data], pixelFill))
+      smaller.data = Buffer.from(_.concat([...smaller.data], pixelFill))
+    }
 
     try {
       const px = pixelmatch(temp1.data, temp2.data, diff.data, width, height, {threshold: 0})
