@@ -197,11 +197,13 @@ class Collector {
 
     const pxCount = width * height
 
-    const px = pixelmatch(img1.data, img2.data, diff.data, width, height, {threshold: 0});
-
-    console.log(`Diff: ${(px/pxCount) *100}% (pixel diff: ${px})`.blue)
-
-    fs.writeFileSync(diffPath, PNG.sync.write(diff));
+    try {
+      const px = pixelmatch(img1.data, img2.data, diff.data, width, height, {threshold: 0});
+      console.log(`Diff: ${(px/pxCount) *100}% (pixel diff: ${px})`.blue)
+      fs.writeFileSync(diffPath, PNG.sync.write(diff));
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   getItemMeta(item) {
