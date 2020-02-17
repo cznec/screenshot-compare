@@ -1,6 +1,7 @@
 # @cznec/screenshot-compare
 
-Website testing tool for screenshot capture and compare.
+Website testing tool for screenshot capture and compare.  
+Package is under construction 🚧 but it works! 😉
 
 ### Installing
 
@@ -87,5 +88,3 @@ Compare captured screenshots and save ..._test.png file and ..._diff.png file.
 Print pixel and percentage diff.  
 Also check screenshot definition stamp and alert if is not equal.
 
-
-More documentation under construction 🚧

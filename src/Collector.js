@@ -4,8 +4,10 @@ const fs = require('fs')
 const path = require('path')
 const delay = require('delay')
 const md5 = require('md5')
-const PNG = require('pngjs').PNG;
-const pixelmatch = require('pixelmatch');
+const PNG = require('pngjs').PNG
+const pixelmatch = require('pixelmatch')
+const _ = require('lodash')
+
 require('colors')
 
 class Collector {
@@ -15,7 +17,7 @@ class Collector {
    * @param opt
    */
   constructor(opt) {
-    this.opt = opt;
+    this.opt = opt
 
     this.required()
 
@@ -48,7 +50,7 @@ class Collector {
   }
 
   async initBrowser() {
-    this.browser = await puppeteer.launch();
+    this.browser = await puppeteer.launch()
   }
 
   async compareMeta(item, meta) {
@@ -59,7 +61,7 @@ class Collector {
         name: 'value',
         message: 'Stamp of testing collection item doesnt match collected stamp. Continue?',
         initial: true
-      }]);
+      }])
 
       if (!response.value) this.error('Exit()')
     }
@@ -67,17 +69,17 @@ class Collector {
 
   async delay(itemDelay) {
     let delayAlt = itemDelay
-    let delayAltInterval = null;
+    let delayAltInterval = null
     delayAltInterval = setInterval(() => {
       delayAlt -= 100
-      process.stdout.clearLine();
-      process.stdout.cursorTo(0);
-      process.stdout.write(`Delay: ${delayAlt}`.gray);
+      process.stdout.clearLine()
+      process.stdout.cursorTo(0)
+      process.stdout.write(`Delay: ${delayAlt}`.gray)
 
       if (delayAlt <= 0) {
         clearInterval(delayAltInterval)
-        process.stdout.clearLine();
-        process.stdout.cursorTo(0);
+        process.stdout.clearLine()
+        process.stdout.cursorTo(0)
       }
     }, 100)
 
@@ -98,7 +100,7 @@ class Collector {
     for (let i = 0; i < items.length; i++) {
 
       const item = items[i]
-      const page = await this.browser.newPage();
+      const page = await this.browser.newPage()
       const meta = this.getItemMeta(item)
 
       const saveTo = path.join(this.collectionPath.replace(path.basename(this.collectionPath), ''), item.saveTo)
@@ -139,7 +141,7 @@ class Collector {
        * Set page console.log
        */
       if (item.pageLog)
-        page.on('console', msg => console.log('PAGE LOG:', msg.text()));
+        page.on('console', msg => console.log('PAGE LOG:', msg.text()))
 
       /**
        * Capture screenshot
@@ -190,17 +192,39 @@ class Collector {
   }
 
   compare(img1Path, img2Path, diffPath) {
-    const img1 = PNG.sync.read(fs.readFileSync(img1Path));
-    const img2 = PNG.sync.read(fs.readFileSync(img2Path));
-    const {width, height} = img1;
-    const diff = new PNG({width, height});
+    const img1 = PNG.sync.read(fs.readFileSync(img1Path))
+    const img2 = PNG.sync.read(fs.readFileSync(img2Path))
 
+    const width1 = img1.width
+    const height1 = img1.height
+    const width2 = img2.width
+    const height2 = img2.height
+
+    if (width1 !== width2) {
+      console.error("Images widths must be the same size")
+      return
+    }
+
+    const width = width1
+    const height = height1 > height2 ? height1 : height2
     const pxCount = width * height
 
+    const temp1 = new PNG({width, height})
+    const temp2 = new PNG({width, height})
+    const diff = new PNG({width, height})
+
+    temp1.data = img1.data
+    temp2.data = img2.data
+
+    const smaller = temp1.data.length < temp2.data.length ? temp1 : temp2
+    const pixelFill = _.times(diff.data.length - smaller.data.length, () => 155)
+
+    smaller.data = Buffer.from(_.concat([...smaller.data], pixelFill))
+
     try {
-      const px = pixelmatch(img1.data, img2.data, diff.data, width, height, {threshold: 0});
+      const px = pixelmatch(temp1.data, temp2.data, diff.data, width, height, {threshold: 0})
       console.log(`Diff: ${(px/pxCount) *100}% (pixel diff: ${px})`.blue)
-      fs.writeFileSync(diffPath, PNG.sync.write(diff));
+      fs.writeFileSync(diffPath, PNG.sync.write(diff))
     } catch (e) {
       console.log(e)
     }
