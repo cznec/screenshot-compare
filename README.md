@@ -1,10 +1,19 @@
 # @cznec/screenshot-compare
 
-Website testing tool for screenshot capture and compare.  
+Website **screenshot compare / collect.**
+  
+This package is wraps:  
+https://www.npmjs.com/package/puppeteer 
+https://www.npmjs.com/package/pixelmatch  
+for easy collect and compare website screenshots.
+  
 Package is under construction 🚧 but it works! 😉
 
-### Installing
+## Features
+- **collect:** collect screenshots collection for late compare 
+- **compare:** compare new screenshots with collected screenshots 
 
+## Install
 ```
 npm install --save-dev @cznec/screenshot-compare
 
@@ -29,14 +38,19 @@ module.exports = [
 
 ```
 
-Run screenshot collector
+Run screenshots collection **collect**
 ```bash
 npx screenshot-compare collect ./collection.js
 ```
 
-Run screenshot compare
+Run screenshot collection **compare**
 ```bash
 npx screenshot-compare compare ./collection.js
+```
+
+Run screenshot compare / collect on **specific Screenshot() names**
+```bash
+npx screenshot-compare compare ./collection.js name1 name1 ...
 ```
 
 ## Advanced usage
@@ -74,17 +88,27 @@ module.exports = [
 ]
 
 ```
-Run screenshot collector for specific screenshots names
-```bash
-npx screenshot-compare collect ./collection.js google_2
-```
 
-## Collect method
+## API
+- #### Screenshot() methods:
+    - url( String ) - final url for take screenshot
+    - name( String ) - **collection unique!** screenshot name 
+    - saveTo( String ) - relative path from collection file to store screenshots
+    - pageLog( Boolean ) - print console log of page
+    - delay( Number ) - delay after url redirect and before take screenshot
+    - viewport( Object ) - ```{ width: Number, height: Number, deviceScaleFactor: Number }``` [docs](https://github.com/puppeteer/puppeteer/blob/v2.1.1/docs/api.md#pagesetviewportviewport)
+    - before( async Function(page, screenshot, collector) )
+        - page: puppeteer Page class - [docs](https://github.com/puppeteer/puppeteer/blob/v2.1.1/docs/api.md#class-page)
+        - screenshot: current screenshot Object ( Screenshot.get() )
+        - collector: Collector class reference ( for exaple useful for Collector.delay( Number ) )
+
+## Collect command
 Capture PNG screenshot and save them with name defined in collection file.  
-Also create screenshot definition stamp. This stamp is compared in 
+Also create screenshot definition stamp. This stamp is compared in compare command. 
 
-## Compare method
+## Compare command
 Compare captured screenshots and save ..._test.png file and ..._diff.png file.  
 Print pixel and percentage diff.  
 Also check screenshot definition stamp and alert if is not equal.
-
+        
+More later? 🙃
